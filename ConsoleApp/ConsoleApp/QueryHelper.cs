@@ -9,17 +9,28 @@ public class QueryHelper : IQueryHelper
     /// <summary>
     /// Get Deliveries that has payed
     /// </summary>
-    public IEnumerable<Delivery> Paid(IEnumerable<Delivery> deliveries) => new List<Delivery>(); //TODO: Завдання 1
+    public IEnumerable<Delivery> Paid(IEnumerable<Delivery> deliveries) => 
+        deliveries.Where(delivery => delivery.Status == DeliveryStatus.Confirmed); // Завдання 1
 
     /// <summary>
     /// Get Deliveries that now processing by system (not Canceled or Done)
     /// </summary>
-    public IEnumerable<Delivery> NotFinished(IEnumerable<Delivery> deliveries) => new List<Delivery>(); //TODO: Завдання 2
+   public IEnumerable<Delivery> NotFinished(IEnumerable<Delivery> deliveries) =>
+        deliveries.Where(delivery => delivery.Status != DeliveryStatus.Canceled && delivery.Status != DeliveryStatus.Done); // Завдання 2
     
     /// <summary>
     /// Get DeliveriesShortInfo from deliveries of specified client
     /// </summary>
-    public IEnumerable<DeliveryShortInfo> DeliveryInfosByClient(IEnumerable<Delivery> deliveries, string clientId) => new List<DeliveryShortInfo>(); //TODO: Завдання 3
+    public IEnumerable<DeliveryShortInfo> DeliveryInfosByClient(IEnumerable<Delivery> deliveries, string clientId) =>
+        deliveries
+            .Where(delivery => delivery.ClientId == clientId)
+            .Select(delivery => new DeliveryShortInfo
+            {
+                // Map properties accordingly
+                Id = d.Id,
+                ClientName = d.ClientName,
+                // Other properties...
+            }); //TODO: Завдання 3
     
     /// <summary>
     /// Get first ten Deliveries that starts at specified city and have specified type
